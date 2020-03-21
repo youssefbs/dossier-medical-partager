@@ -8,18 +8,8 @@ router.get('/',(req,res)=>{
 })
 
 router.get('/dashboard',ensureAuthenticated,(req,res)=>{
-    res.render('dashboard',{
-        id:req.user._id
-    });
-    console.log(req.user);
-    
-})
+    res.render('dashboard')
+});
 
-router.post('/dashboard',(req,res)=>{
-
-    //update 
-
-    res.render('/dashboard');
-})
 
 module.exports=router;

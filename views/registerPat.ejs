@@ -5,7 +5,19 @@
           <i class="fas fa-user-plus"></i> Register
         </h1>
         
-        <form action="/dashboard" method="POST">
+        <% if(typeof errors != 'undefined'){ %>
+          <% errors.forEach(error=>{ %>
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+              <%= error.msg %>
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+        
+        <%  })%> 
+        
+        <%  } %>   
+        <form action="/pat/register" method="POST">
           <div class="form-group">
             <label for="name">Name</label>
             <input
@@ -15,6 +27,7 @@
               class="form-control"
               placeholder="Enter Name"
               value="<%= typeof name != 'undefined' ? name : '' %>"
+             
             />
           </div>
           <div class="form-group">
@@ -26,18 +39,10 @@
               class="form-control"
               placeholder="Enter Last Name"
               value="<%= typeof lastname != 'undefined' ? lastname : '' %>"
+             
             />
           </div>
           <div class="form-group">
-            <label for="">Email</label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              class="form-control"
-              placeholder="Enter Email"
-              value="<%= typeof email != 'undefined' ? email : '' %>"
-            />
           </div>
           <div class="form-group">
             <label for="adresse">Adresse</label>
@@ -48,18 +53,20 @@
               class="form-control"
               placeholder="Enter an Adresse"
               value="<%= typeof adresse != 'undefined' ? adresse : '' %>"
-            />
+           
+              />
           </div>
           <div class="form-group">
-            <label for="telephone">Enter telephone</label>
+            <label for="telephone">telephone</label>
             <input
-              type="number"
+              type="tel"
               id="telephone"
               name="telephone"
               class="form-control"
               placeholder="Enter telephone"
               value="<%= typeof telephone != 'undefined' ? telephone : '' %>"
-            />
+          
+              />
           </div>
           <button type="submit" class="btn btn-primary btn-block">
             Register

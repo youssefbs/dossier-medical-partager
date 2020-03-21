@@ -46,7 +46,7 @@ const UserSchema=new mongoose.Schema({
     nom:{
         type:String
     },
-    pernom:{
+    prenom:{
          type:String
     },
     email:{

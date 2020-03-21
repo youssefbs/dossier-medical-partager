@@ -72,13 +72,12 @@ router.post('/register',(req,res)=>{
               else
               {
                   const newUser=new User({
-                      name,
-                      lastname,
+                      nom:name,
+                      prenom:lastname,
                       code,
                       email,
                       password,
                   });
-                    
                   //Hash password
                   bcrypt.genSalt(10,(err,salt)=>{
                       bcrypt.hash(newUser.password,salt,(err,hash)=>{
@@ -86,7 +85,7 @@ router.post('/register',(req,res)=>{
 
                         newUser.password=hash;
                         
-
+                        console.log(newUser);
                         newUser.save()
                         .then(user=>{
                             req.flash('success_msg','You are registered');
