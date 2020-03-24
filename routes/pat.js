@@ -48,4 +48,38 @@ router.post('/register',ensureAuthenticated,(req,res)=>{
  
  })
 
+router.get('/consultation/:id',ensureAuthenticated,(req,res)=>{
+    const num =req.params.id;
+
+    res.render('cons',{
+        tel:num,
+        nom:req.user.patient[num].nomPat,
+        prenom:req.user.patient[num].pernomPat,
+        adresse:req.user.patient[num].adresse,
+    });
+})
+
+
+router.post('/consultation/:id',ensureAuthenticated,(req,res)=>{
+    const num=req.params.id;
+    const n=req.body.NomMedicament.length
+    let medicament=[];
+    let i=0;
+    for(i=0;i<n;i++)
+    {
+        medicament.push({NomMedica:req.body.NomMedicament[i],
+            duree:req.body.duree[i],
+            quantite:req.body.quantite[i]})
+    }
+    console.log(medicament);
+    const newCon={
+        date:Date.now(),
+        compterendu:req.body.CompteRendu,
+        medicament:medicament
+    }
+    req.user.patient[num].consultation.push(newCon);
+    req.user.save();
+    res.redirect('/dashboard');
+})
+
 module.exports=router;

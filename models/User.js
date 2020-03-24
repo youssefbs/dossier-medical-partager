@@ -17,7 +17,6 @@ const ConsSchema=new mongoose.Schema({
      date:
      {
          type:Date,
-         default:Date.now
      },
      compterendu:{
          type:String
@@ -46,7 +45,7 @@ const UserSchema=new mongoose.Schema({
     nom:{
         type:String
     },
-    prenom:{
+    pernom:{
          type:String
     },
     email:{

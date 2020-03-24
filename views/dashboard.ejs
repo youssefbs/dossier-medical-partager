@@ -1,5 +1,59 @@
   
 <h1 class="mt-4">Dashboard</h1>
+<% if(typeof errors != 'undefined'){ %>
+    <% errors.forEach(error=>{ %>
+      <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <%= error.msg %>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+  
+  <%  })%> 
+  
+  <%  } %>
 <p class="lead mb-3">Welcome </p>
 <a href="/med/login" class="btn btn-secondary">Logout</a>
-<a href="/pat/register" class="btn btn-secondary">Ajouter Patient</a>
+<a href="/pat/register" class="btn btn-secondary">Ajouter Patient</a><br><br>
+<form action="/dashboard" method="POST">
+    <label style="display:block;">Donner le numero</label>
+    <input type="tel" name="numero" id="numero" required>
+    <button type="submit" class="btn btn-primary btn-block">
+        Saisir la consultation
+    </button>
+</form>
+<form action="/dashboard" method="POST">
+  <label style="display:block;">Donner le numero</label>
+  <input type="tel" name="numero1" id="numero1" required>
+  <button type="submit" class="btn btn-primary btn-block">
+      Chercher toutes les consultation
+  </button>
+</form>
+  <br>
+  <% if(typeof pat != 'undefined'){ %>
+    <p class="lead mb-3">Liste de patient</p>
+    <br>
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">Nom</th>
+        <th scope="col">Prénom</th>
+        <th scope="col">Adresse</th>
+        <th scope="col">Telephone</th>
+        <th scopre="col">Nomber de consultation</th>
+      </tr>
+    </thead>
+    <tbody>
+        <% pat.forEach(patient=>{ %>
+
+      <tr>
+        <th scope="row"><%= patient.nomPat %></th>
+        <td><%= patient.pernomPat %></td>
+        <td><%= patient.adresse %></td>
+        <td><%= patient.telephone%></td>
+        <td><%= patient.consultation.length %></td>
+      </tr>
+    </tbody>
+      <%  })%> 
+  </table>
+  <%  } %>  
