@@ -1,0 +1,63 @@
+<div class="row mt-5">
+    <div class="col-md-8 m-auto">
+      <div class="card card-body">
+        <h1 class="text-center mb-3">
+           Les Consultation 
+        </h1>
+          
+          <!-- Modal -->
+        <% let i=0 %>
+        <% consultations.forEach((consultation)=>{ %>
+          <div class="modal fade" id="consultation<%=i%>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLongTitle">Contenu de la consultation</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                    <h4>Information:</h4>
+                    <p><%= consultation.compterendu%></p>
+                    <h4>Medicament</h4>
+                    <ul class="list-unstyled">
+                        <% consultation.medicament.forEach(med=>{ %>
+                            <li>NomMed:<%=med.NomMedica%></li>
+                            <li>La duree:<%=med.dure %></li>
+                            <li>Qunatite:<%=med.quantite %></li>
+                        <%})%>
+                    </ul>
+                </div>
+              
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <form form action="/pat/consultation/delete/<%=id%>/<%=i%>" method="GET">
+                      <button type="button" class="btn btn-primary">Delete Consultation</button>
+                  </form>
+                  <form>
+                    <button type="button" class="btn btn-primary">Update Consultation</button>
+                </form>
+                </div>
+                <% i=i+1 %>
+              </div>
+            </div>
+          </div>
+          <% }) %>
+        
+        <p class="lead mb-3">Nom du patient: <%= nom %></p>
+        <p class="lead mb-3">Prenom du patient: <%= prenom %></p>
+        <p class="lead mb-3">Adresse du patient: <%= adresse %></p>
+        <p class="lead mb-3">Telephone du patient: <%= tel %></p>
+        <% i=0 %>
+        <% consultations.forEach(consultation=>{ %>
+            <button class="btn btn-primary" data-toggle="modal" data-target="#consultation<%=i%>" style='margin-bottom: 5px;'>
+              consultation:<%= i+1 %>
+              
+              <%= consultation.date %>
+              <% i=i+1 %>
+            </button>
+        <%  })%> 
+      </div>
+    </div>
+  </div>

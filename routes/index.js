@@ -57,23 +57,34 @@ else
         errors.push({msg:"la longueur du numero est 8"});
         res.render('dashboard',{errors});
     }
-    
-    User.find({'patient.telephone':num1})
-     .then((Users)=>{
-         if(!Users)
-         {
-            
-            errors.push({msg:'Patient inexitant'});
+    const m=req.user.patient.length;
+    if(m==0)
+    {
+        errors.push({msg:"Il n'a pas de cosultaion "});
+        res.render('dashboard',{errors});
+    }
+    else
+    {
+        let i;
+        for(i=0;i<m;i++)
+        {
+            if(req.user.patient[i].telephone==num1)
+            {
+                
+                   res.redirect('pat/cosultation/contenu/'+i);
+                   i=m+1;
+                break;
+            }   
+        }
+        if(i>m)
+        {
+            errors.push({msg:"Il n'a pas de pateint avec se numero"});
             res.render('dashboard',{errors});
-         }
-         else
-         {
-            console.log(Users);
-            //3andi resultat ki n3mel console.log(Users);
-            //Ama ki na3mmel Users.patient wela email ijini undefined 
-         }
-         
-     })
+        }
+            
+    }
+
+    
     
 }
 })

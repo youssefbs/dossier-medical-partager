@@ -1,6 +1,7 @@
 const express=require('express');
 const router=express.Router();
 const  {ensureAuthenticated}=require('../config/auth');
+const User=require('../models/User');
 
 router.get('/register',(req,res)=>{
     res.render('registerPat');
@@ -62,16 +63,28 @@ router.get('/consultation/:id',ensureAuthenticated,(req,res)=>{
 
 router.post('/consultation/:id',ensureAuthenticated,(req,res)=>{
     const num=req.params.id;
-    const n=req.body.NomMedicament.length
     let medicament=[];
-    let i=0;
-    for(i=0;i<n;i++)
+    if(typeof req.body.NomMedicament!='undefined')
     {
-        medicament.push({NomMedica:req.body.NomMedicament[i],
-            duree:req.body.duree[i],
-            quantite:req.body.quantite[i]})
+        if(typeof req.body.NomMedicament=='string' )
+        {
+                
+                medicament.push({NomMedica:req.body.NomMedicament,
+                duree:req.body.duree,
+                quantite:req.body.quantite});
+        }else
+        {
+  
+            const n=req.body.NomMedicament.length
+            let i=0;
+            for(i=0;i<n;i++)
+            {
+                medicament.push({NomMedica:req.body.NomMedicament[i],
+                duree:req.body.duree[i],
+                quantite:req.body.quantite[i]})
+            }
+        }
     }
-    console.log(medicament);
     const newCon={
         date:Date.now(),
         compterendu:req.body.CompteRendu,
@@ -81,5 +94,25 @@ router.post('/consultation/:id',ensureAuthenticated,(req,res)=>{
     req.user.save();
     res.redirect('/dashboard');
 })
+
+
+
+router.get('/cosultation/contenu/:id',ensureAuthenticated,(req,res)=>{
+    res.render('cons_contenu',{
+        nom:req.user.patient[req.params.id].nomPat,
+        tel:req.user.patient[req.params.id].telephone,
+        prenom:req.user.patient[req.params.id].pernomPat,
+        adresse:req.user.patient[req.params.id].adresse,  
+        consultations:req.user.patient[req.params.id].consultation,
+        id:req.params.id
+    });
+});
+
+
+router.get('/consultation/delete/:id/:id2',ensureAuthenticated,(req,res)=>{
+    req.user.patient[req.params.id].consultation[].splice(req.params.id,1);
+    res.redirect('/pat/consultation/contenu/'+req.params.id);    
+});
+
 
 module.exports=router;
