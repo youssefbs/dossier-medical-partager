@@ -1,0 +1,52 @@
+<div class="row mt-5">
+    <div class="col-md-6 m-auto">
+      <div class="card card-body">
+        <h1 class="text-center mb-3">
+          <i class="fas fa-user-plus"></i> Consultation
+        </h1>
+
+        <p class="lead mb-3">Nom du patient: <%= nom %></p>
+        <p class="lead mb-3">Prenom du patient: <%= prenom %></p>
+        <p class="lead mb-3">Adresse du patient: <%= adresse %></p>
+
+        <form action="/pat/consultation/update/<%=id%>/<%=i%>" method="POST">
+            <div class="form-group">
+                <label for="CompteRendu">Compte Rendu</label>
+                <textarea class="form-control" id="compterendu" name="compterendu" rows="7" required><%= compterendu %></textarea>
+            </div>
+            <div>
+                <h2>List des Medicament</h2>
+                <% medicament.forEach((mdc)=>{ %>
+                    <div class="container">
+                        <div class="col-4">
+                            <label>Nom:</label>
+                            <input type="text" value="<%=mdc.NomMedica %>" name="NouvNom"/>
+                        </div>
+                        <div class="col-4">
+                            <label>Durée:</label>
+                            <input value="<%=mdc.dure %>" name="NouvDure"/>
+                        </div>
+                        <div class="col-4">
+                            <label>Qunatite:</label>
+                            <input value="<%=mdc.quantite %>" name="NouvQuantite"/>
+                        </div>
+                    </div>  
+                 <% }) %>              
+            </div>
+
+            <div id="addInput"></div>
+            <input type="button" value="Ajouter les medicament" onClick="add();" />
+          <button type="submit" class="btn btn-primary btn-block">
+            Enregister Les Modification
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript">
+    function add()
+        {
+        var input = addInput.innerHTML
+        addInput.innerHTML = input + '<label>Nom du medicament:</label><br><input type="text" name="NomMedicament" /><br />\n<label>Quantite:</label><br><input type="text" name="quantite" /><br />\n<label>Durée:</label><br><input type="text" name="duree" /><br />\n';
+        }
+    </script>

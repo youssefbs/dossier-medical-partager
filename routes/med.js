@@ -73,7 +73,7 @@ router.post('/register',(req,res)=>{
               {
                   const newUser=new User({
                       nom:name,
-                      prenom:lastname,
+                      pernom:lastname,
                       code,
                       email,
                       password,

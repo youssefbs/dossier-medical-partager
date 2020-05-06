@@ -2,6 +2,7 @@ const express=require('express');
 const router=express.Router();
 const  {ensureAuthenticated}=require('../config/auth');
 const User=require('../models/User');
+const mongoose=require('mongoose');
 
 
 router.get('/',(req,res)=>{
@@ -27,15 +28,45 @@ if(typeof num!='undefined')
     {
         errors.push({msg:"la longueur du numero est 8"});
     }
-    
-    while(i<n && req.user.patient[i].telephone!=num)
-    {
-        i=i+1;
-    }
-    if(i>n)
-    {
-        errors.push({msg:"Patient inexistant"});
-    }
+   
+    User.findOne({"patient.telephone":num})
+    .then((user)=>{
+        if(user)
+        {
+            let i=0;
+            for(i=0;i<user.patient.length;i++)
+            {
+                if(user.patient[i].telephone==num)
+                    break;
+            }
+            console.log(user.patient[i]);
+            User.findOne({"patient.telephone":num,code:req.user.code})
+            .then((user1)=>{
+                if(user1)
+                {
+                    console.log("p1")
+                }
+                else
+                {
+                    console.log("p2")
+                    let p1={
+                        nomPat:user.patient[i].nomPat,
+                        adresse:user.patient[i].adresse,
+                        prenomPat:user.patient[i].prenomPat,
+                        telephone:user.patient[i].telephone
+                    }
+                    req.user.patient.push(p1);
+                    req.user.save()
+                }
+                res.redirect('/pat/consultation/'+user.patient[i].nomPat+'/'+user.patient[i].prenomPat+'/'+user.patient[i].adresse+'/'+user.patient[i].telephone);
+            })
+            
+        }
+        else
+        {
+            errors.push({msg:'Patient inexistant'});
+        }
+    })
     
     if(errors.length>=1)
     {
@@ -45,10 +76,6 @@ if(typeof num!='undefined')
             pat:req.user.patient
         })
     }
-    else
-    {
-        res.redirect('/pat/consultation/'+i);
-    }
 }
 else
 {
@@ -57,21 +84,22 @@ else
         errors.push({msg:"la longueur du numero est 8"});
         res.render('dashboard',{errors});
     }
-    const m=req.user.patient.length;
-    if(m==0)
+    else if(req.user.patient.length==0)
     {
+
         errors.push({msg:"Il n'a pas de cosultaion "});
         res.render('dashboard',{errors});
     }
     else
     {
+        const m=req.user.patient.length;
         let i;
         for(i=0;i<m;i++)
         {
             if(req.user.patient[i].telephone==num1)
             {
                 
-                   res.redirect('pat/cosultation/contenu/'+i);
+                   res.redirect('pat/consultation/contenu/'+i);
                    i=m+1;
                 break;
             }   
