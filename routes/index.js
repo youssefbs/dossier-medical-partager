@@ -63,13 +63,20 @@ if(typeof num!='undefined')
             
         }
         else
-        {
+        { 
+            console.log("hhh");
             errors.push({msg:'Patient inexistant'});
+            res.render('dashboard',{
+                errors,
+                num,
+                pat:req.user.patient
+            })
         }
     })
     
     if(errors.length>=1)
     {
+        console.log("hhh2");
         res.render('dashboard',{
             errors,
             num,
