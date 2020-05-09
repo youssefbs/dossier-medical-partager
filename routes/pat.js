@@ -152,6 +152,20 @@ router.get('/consultation/contenu/:id',ensureAuthenticated,(req,res)=>{
     });
 });
 
+router.get('/consultations/:id',ensureAuthenticated,(req,res)=>{
+    //console.log(req.app.locals.docteurs);c
+    let i=0;
+    for(i=0;i<req.user.patient.length;i++)
+    {
+        if(req.user.patient[i].telephone==req.params.id)
+           break;
+    }
+    res.render('consPat',{
+        docs:req.app.locals.docteurs,        
+        pat:req.user.patient[i]      
+    })
+
+})
 
 
 router.get('/consultation/delete/:id/:id2',ensureAuthenticated,(req,res)=>{                
@@ -231,8 +245,28 @@ router.post('/consultation/update/:id/:id2',(req,res)=>{
     req.user.patient[req.params.id].consultation[req.params.id2].medicament=[...medicamentarray];
     console.log(req.user.patient[req.params.id].consultation[req.params.id2]);
     req.user.save();
-    console.log(req.user.patient[req.params.id].consultation[req.params.id2]);
     res.redirect('/pat/consultation/contenu/'+req.params.id);
 })
 
+
+
+router.get('/consultations/:id/:Doc',(req,res)=>{
+      let i;
+      User.findOne({"code":req.params.Doc})
+      .then(user=>{
+          if(user)
+          {
+              let i;
+              for(i=0;i<user.patient.length;i++)
+              {
+                  if(user.patient[i].telephone==req.params.id)
+                    break;
+              }
+              res.render('consPatDoc.ejs',{
+                  consultations:user.patient[i].consultation,
+                  pat:user.patient[i]
+              })
+          }
+      })
+ })
 module.exports=router;

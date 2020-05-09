@@ -1,0 +1,28 @@
+<div class="row mt-5">
+    <div class="col-md-8 m-auto">
+      <div class="card card-body">
+        <h1 class="text-center mb-3">
+           Les Consultation 
+        </h1>
+
+        <p class="lead mb-3">Nom du patient: <%=pat.nomPat  %></p>
+        <p class="lead mb-3">Prenom du patient: <%=pat.prenomPat   %></p>
+        <p class="lead mb-3">Adresse du patient: <%= pat.adresse  %></p>
+        <p class="lead mb-3">Telephone du patient: <%= pat.telephone  %></p>
+
+
+        <% docs.forEach(doc=>{ %>
+          <form method="GET" action="/pat/Consultations/<%= pat.telephone %>/<%= doc.code %>" style="width:100%;">
+            <button class="btn btn-primary"  style='margin-bottom: 5px;' type="submit">
+              <ul>  
+                <li>Nom du Docteur:<%= doc.nom %></li>
+                <li>Prenom du Docteur:<%= doc.pernom %></li>
+                <li>Email du Docteur:<%= doc.email %></li>
+                <li>Specilite du Docteur:</li>
+            </ul>  
+            </a>
+        <%  })%>
+        </form> 
+      </div>
+    </div>
+  </div>

@@ -29,6 +29,16 @@
       Chercher toutes les consultation
   </button>
 </form>
+
+<form action="/dashboard" method="POST">
+  <label style="display:block;">Donner le numero</label>
+  <input type="tel" name="numero2" id="numero2" required>
+  <button type="submit" class="btn btn-primary btn-block">
+      Chercher toutes les consultation par medecin
+  </button>
+</form>
+
+
   <br>
   <% if(typeof pat != 'undefined'){ %>
     <p class="lead mb-3">Liste de patient</p>
